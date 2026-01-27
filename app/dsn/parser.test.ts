@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest"
+import { readFile } from "fs/promises"
 import { type Entreprise, EntrepriseSchema } from "./entities/entreprise"
 import * as Parser from "./parser"
 
-import { type DSNDocument } from "../type/dns"
+import { type DSNDocument } from "../type/dsn"
 
 const entreprise_fixture = [
   { fieldNum: "001", value: "123456789", field: "siren" },
@@ -40,7 +41,8 @@ describe("mapEntrepriseField", () => {
   })
 
   it('should parse DSN file and return DSNDocument', async () => {
-    const dsn: DSNDocument = await Parser.parseFile("dsn.txt")
+    const content = await readFile("dsn.txt", "utf-8")
+    const dsn: DSNDocument = Parser.parseDSN(content)
     const entreprise = {
       siren: '397096943',
       nic: '76756',

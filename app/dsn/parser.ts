@@ -1,4 +1,3 @@
-import { readFile } from "fs/promises"
 import { type Entreprise } from "./entities/entreprise"
 import { type Envoi } from "./entities/envoi"
 import { type Emetteur } from "./entities/emetteur"
@@ -14,7 +13,7 @@ import {
   type DSNDocument,
   type DSNIndividu,
   type DSNEtablissement
-} from "../type/dns"
+} from "../type/dsn"
 
 export const DSN_BLOCK_CODES = {
   ENVOI: "S10.G00.00",
@@ -42,10 +41,7 @@ interface CurrentState {
   remuneration: Remuneration | null
 }
 
-
-export async function parseFile(filepath: string): Promise<DSNDocument> {
-  const a = await readFile(filepath, "utf-8")
-
+export function parseDSN(content: string): DSNDocument {
   const dsn: DSNDocument = {
     envoi: {},
     emetteur: {},
@@ -63,11 +59,11 @@ export async function parseFile(filepath: string): Promise<DSNDocument> {
     remuneration: null
   }
 
-  const lines = a.split("\n")
+  const lines = content.split("\n")
   for (const line of lines) {
-    const c = parseLine(line)
-    if (!c) continue;
-    const { code, value } = c;
+    const parsed = parseLine(line)
+    if (!parsed) continue;
+    const { code, value } = parsed;
     const fieldNum = getFieldNumber(code);
 
     if (isBlockStart(code, value)) {
