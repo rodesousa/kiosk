@@ -15,22 +15,14 @@ export interface DSNDocument {
 	declaration: Declaration,
 	entreprise: Entreprise,
 	contact: ContactEmetteur,
-	dsn_etablissement: DSNEtablissement[],
-}
-
-export interface DSNEtablissement {
 	etablissement: Etablissement,
-	dsn_individu: DSNIndividu[],
+	individus: DSNIndividu[]
 }
 
 export interface DSNIndividu {
 	individu: Individu,
-	dsn_contrat: DSNContrat[],
-}
-
-export interface DSNContrat {
 	contrat: Contrat,
-	versements: Versement[],
-	remunerations: Remuneration[],
+	versement: Versement,
+	remuneration: Remuneration,
 }
 

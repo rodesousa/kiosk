@@ -1,83 +1,87 @@
-import { z } from "zod";
-
-export const ContratSchema = z.object({
-	date_debut: z.string().optional(),                    // 001
-	statut_conventionnel: z.string().optional(),                // 002
-	statut_rc: z.string().optional(), // 003
-	pcs_ese: z.string().optional(),                       // 004
-	complement_pcs_ese: z.string().optional(),            // 005
-	libelle_emploi: z.string().optional(),                // 006
-	nature: z.string().optional(),                        // 007
-	dispositif_politique: z.string().optional(),          // 008
-	numero: z.string().optional(),                        // 009
-	date_fin_previsionnelle: z.string().optional(),       // 010
-	unite_mesure: z.string().optional(),                 // 011
-	quotite_categorie: z.string().optional(),             // 012
-	quotite: z.string().optional(),               // 013
-	modalite_temps: z.string().optional(),        // 014
-	complement_base: z.string().optional(),        // 016
-	ccn: z.string().optional(),    // 017
-	regime_maladie: z.string().optional(),                // 018
-	lieu_travail: z.string().optional(),                  // 019
-	regime_vieillesse: z.string().optional(),             // 020
-	motif_recours: z.string().optional(),                 // 021
-	code_caisse_conges_payes: z.string().optional(),           // 022
-	taux_fraisprofessionnels: z.string().optional(),    // 023
-	travailleur_etranger: z.string().optional(),          // 024
-	motif_exclusion_dsn: z.string().optional(),               // 025
-	status_emploi: z.string().optional(),                 // 026
-	code_affectation_ac: z.string().optional(),           // 027
-	numero_interne: z.string().optional(),      // 028
-	type_gestion_ac: z.string().optional(),          // 029
-	date_adhesion: z.string().optional(),                 // 030
-	date_denonciation: z.string().optional(),             // 031
-	date_convention_gestion: z.string().optional(),         // 032
-	numero_convention_gestion: z.string().optional(),     // 033
-	code_gestionnaire_risque: z.string().optional(),    // 035
-	code_emplois_multiples: z.string().optional(),        // 036
-	code_employeurs_multiples: z.string().optional(),     // 037
-	code_regime_risque_accident_travail: z.string().optional(),       // 039
-	code_risque_accident_travail: z.string().optional(),          // 040
-	positionnement_convention_collective: z.string().optional(),     // 041
-	code_statut_categoriel_apecita: z.string().optional(),                // 042
-	taux_accident_travail: z.string().optional(),         // 043
-	temps_partiel_cotisant_temps_plein: z.string().optional(),  // 044
-	remuneration_pourboire: z.string().optional(),        // 045
-	siret_etablissement_utilisateur: z.string().optional(),     // 046
-	numero_label: z.string().optional(),               // 048
-	numero_licence_entrepreneur_spectacle: z.string().optional(),             // 049
-	numero_objet_spectacle: z.string().optional(),               // 050
-	statut_organisateur_spectacle: z.string().optional(), // 051
-	fp_code_complement_pcs_es: z.string().optional(),         // 052
-	nature_poste: z.string().optional(),                  // 053
-	fp_quotite_travail_temps_complet: z.string().optional(),          // 054
-	taux_temps_travail_partiel: z.string().optional(),            // 055
-	code_categorie_service: z.string().optional(),             // 056
-	fp_indice_brut: z.string().optional(),                   // 057
-	fp_indice_majore: z.string().optional(),                 // 058
-	fpnbi: z.string().optional(),                           // 059
-	fp_indice_brut_origine: z.string().optional(),           // 060
-	fp_indice_brut_cotisation_emploi_superieur: z.string().optional(),        // 061
-	fp_ancien_employeur_public: z.string().optional(),       // 062
-	fp_indice_brut_origine_ancien_salarie_employeur_public: z.string().optional(),         // 063
-	fp_indice_brut_origine_spp: z.string().optional(),                    // 064
-	fp_maintien_traitement_origine_contractuel_titulaire: z.string().optional(),           // 065
-	fp_type_detachement: z.string().optional(),              // 066
-	genre_navigation: z.string().optional(),              // 067
-	taux_service_actif: z.string().optional(),            // 068
-	niveau_rx: z.string().optional(),           // 069
-	echelon: z.string().optional(),                       // 070
-	coefficient_hierarchique: z.string().optional(),      // 071
-	statut_boeth: z.string().optional(),                  // 072
-	complement_dispositif_politique: z.string().optional(), // 073
-	case_mise_disposition_externe: z.string().optional(),      // 074
-	categorie_classement_finale: z.string().optional(),          // 075
-	contrat_engagement_maritime: z.string().optional(),              // 076
-	college_cnieg: z.string().optional(),                 // 077
-	forme_amenagement_temps_partiel: z.string().optional(),     // 078
-	grade: z.string().optional(),                         // 079
-	cti: z.string().optional(),                    // 080
-	finess_geo: z.string().optional(),                    // 081
-})
-
-export type Contrat = z.infer<typeof ContratSchema>
+export interface Contrat {
+	date_debut?: string
+	statut_conventionnel?: string
+	statut_rc?: string
+	pcs_ese?: string
+	complement_pcs_ese?: string
+	libelle_emploi?: string
+	nature?: string
+	dispositif_politique?: string
+	numero?: string
+	date_fin_previsionnelle?: string
+	unite_mesure?: string
+	quotite_categorie?: string
+	quotite?: string
+	modalite_temps?: string
+	complement_base?: string
+	ccn?: string
+	regime_maladie?: string
+	lieu_travail?: string
+	regime_vieillesse?: string
+	motif_recours?: string
+	code_caisse_conges_payes?: string
+	taux_fraisprofessionnels?: string
+	travailleur_etranger?: string
+	motif_exclusion_dsn?: string
+	status_emploi?: string
+	code_affectation_ac?: string
+	numero_interne?: string
+	type_gestion_ac?: string
+	date_adhesion?: string
+	date_denonciation?: string
+	date_convention_gestion?: string
+	numero_convention_gestion?: string
+	code_gestionnaire_risque?: string
+	code_emplois_multiples?: string
+	code_employeurs_multiples?: string
+	code_regime_risque_accident_travail?: string
+	code_risque_accident_travail?: string
+	positionnement_convention_collective?: string
+	code_statut_categoriel_apecita?: string
+	taux_accident_travail?: string
+	temps_partiel_cotisant_temps_plein?: string
+	remuneration_pourboire?: string
+	siret_etablissement_utilisateur?: string
+	numero_label?: string
+	numero_licence_entrepreneur_spectacle?: string
+	numero_objet_spectacle?: string
+	statut_organisateur_spectacle?: string
+	fp_code_complement_pcs_es?: string
+	nature_poste?: string
+	fp_quotite_travail_temps_complet?: string
+	taux_temps_travail_partiel?: string
+	code_categorie_service?: string
+	fp_indice_brut?: string
+	fp_indice_majore?: string
+	fpnbi?: string
+	fp_indice_brut_origine?: string
+	fp_indice_brut_cotisation_emploi_superieur?: string
+	fp_ancien_employeur_public?: string
+	fp_indice_brut_origine_ancien_salarie_employeur_public?: string
+	fp_indice_brut_origine_spp?: string
+	fp_maintien_traitement_origine_contractuel_titulaire?: string
+	fp_type_detachement?: string
+	genre_navigation?: string
+	taux_service_actif?: string
+	niveau_rx?: string
+	echelon?: string
+	coefficient_hierarchique?: string
+	statut_boeth?: string
+	complement_dispositif_politique?: string
+	case_mise_disposition_externe?: string
+	categorie_classement_finale?: string
+	contrat_engagement_maritime?: string
+	college_cnieg?: string
+	forme_amenagement_temps_partiel?: string
+	grade?: string
+	cti?: string
+	finess_geo?: string
+}
+/**
+ * Validation rules for Contrat fields.
+ * Compatible with Mantine form
+ */
+export const ContratRules = {
+	statut_conventionnel: (v: string) => /^\d+$/.test(v) ? null : "Must be digits only",
+	nature: (v: string) => !v || /^\d+$/.test(v) ? null : "Must be digits only",
+}
