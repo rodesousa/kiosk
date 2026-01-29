@@ -2,9 +2,6 @@ import { describe, it, expect } from "vitest"
 import { readFile } from "fs/promises"
 import * as Parser from "./parser"
 import { type DSNDocument } from "../type/dsn"
-import { IndividuRules } from './entities/individu'
-import { ContratRules } from './entities/contrat'
-
 const entreprise = {
   siren: '397096943',
   nic: '76756',
@@ -37,7 +34,7 @@ const emetteur = {
   code_postal: '45649',
   commune: 'Fresno',
   code_pays: 'BF',
-  code_distribution: 'weekly',
+  code_distribution_etranger: 'weekly',
   complement_localisation: 'Sylvia Schmeler'
 }
 const etablissement = {

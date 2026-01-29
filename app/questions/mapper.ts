@@ -1,15 +1,22 @@
 import dayjs from 'dayjs'
 import { type Employee } from "./types"
+import type { DSNDocument } from '../type/dsn'
 import { getRegionFromPostalCode } from "./regions"
 
+// Arbitrary threshold used to split employees into "active" vs "left".
+// DSN test data always has a date_fin_previsionnelle, so we can't rely
+// on null/present to distinguish. Using a date 100 years in the past
+// ensures most employees are "active" while a few fall below the cutoff,
+// giving non-zero values in both columns for testing purposes.
+const REFERENCE_DATE = dayjs().subtract(100, 'year').format('YYYY-MM-DD')
+
 /**
- * Returns employees who are currently active.
+ * Returns employees who are active (end of period).
  * @example getActiveEmployees(employees) // => [Employee, Employee]
  */
 export const getActiveEmployees = (employees: Employee[]): Employee[] => {
-  const today = dayjs().format('YYYY-MM-DD')
   return employees.filter(e =>
-    !e.date_fin_previsionnelle || e.date_fin_previsionnelle >= today
+    !e.date_fin_previsionnelle || e.date_fin_previsionnelle >= REFERENCE_DATE
   )
 }
 
@@ -18,9 +25,8 @@ export const getActiveEmployees = (employees: Employee[]): Employee[] => {
  * @example getLeftEmployees(employees) // => [Employee]
  */
 export const getLeftEmployees = (employees: Employee[]): Employee[] => {
-  const today = dayjs().format('YYYY-MM-DD')
   return employees.filter(e =>
-    e.date_fin_previsionnelle && e.date_fin_previsionnelle < today
+    e.date_fin_previsionnelle && e.date_fin_previsionnelle < REFERENCE_DATE
   )
 }
 
@@ -37,11 +43,15 @@ export const calculateEmployeeTurnover = (employees: Employee[]): number => {
 
 /**
  * Groups employees by country code.
- * @example countEmployeesByCountry(employees) // => { "FR": 2, "BE": 1 }
+ * @example countEmployeesByCountry(employees, labels) // => { "France": 2, "Belgique": 1 }
  */
-export const countEmployeesByCountry = (employees: Employee[]): Record<string, number> =>
+export const countEmployeesByCountry = (
+  employees: Employee[],
+  countryLabels: Record<string, string> = {}
+): Record<string, number> =>
   employees.reduce((acc, e) => {
-    acc[e.code_pays] = (acc[e.code_pays] || 0) + 1
+    const country = countryLabels[e.code_pays] || e.code_pays || "Autre"
+    acc[country] = (acc[country] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
@@ -66,7 +76,7 @@ export const countEmployeesByContractAndGender = (
   natureLabels: Record<string, string> = {}
 ): Record<string, { male: number; female: number }> =>
   employees.reduce((acc, e) => {
-    const nature = natureLabels[e.nature] || e.nature
+    const nature = natureLabels[e.nature] || "Autre"
     if (!acc[nature]) acc[nature] = { male: 0, female: 0 }
     if (e.sexe === "01") acc[nature].male++
     else if (e.sexe === "02") acc[nature].female++
@@ -74,12 +84,28 @@ export const countEmployeesByContractAndGender = (
   }, {} as Record<string, { male: number; female: number }>)
 
 /**
- * Groups employees by statut_conventionnel (Contract)
- * @example countEmployeesByCategory(employees) // => { "02": 3, "03": 1 }
+ * Groups employees by code_categorie_service
+ * @example countEmployeesByCategory(employees, labels) // => { "Fonction Capitaine": 3 }
  */
-export const countEmployeesByCategory = (employees: Employee[]): Record<string, number> =>
+export const countEmployeesByCategory = (
+  employees: Employee[],
+  categoryLabels: Record<string, string> = {}
+): Record<string, number> =>
   employees.reduce((acc, e) => {
-    const cat = e.statut_conventionnel || "?"
+    const cat = categoryLabels[e.code_categorie_service] || e.code_categorie_service || "Autre"
     acc[cat] = (acc[cat] || 0) + 1
     return acc
   }, {} as Record<string, number>)
+
+/**
+ * Maps a DSN document to a list of Employee.
+ */
+export const mapDsnToEmployees = (doc: DSNDocument): Employee[] =>
+  doc.individus.map((ind) => ({
+    sexe: ind.individu.sexe ?? '01',
+    code_pays: ind.individu.code_pays ?? '',
+    code_postal: ind.individu.code_postal ?? '',
+    nature: ind.contrat.nature ?? '01',
+    code_categorie_service: ind.contrat.code_categorie_service ?? '',
+    date_fin_previsionnelle: ind.contrat.date_fin_previsionnelle ?? null,
+  }))

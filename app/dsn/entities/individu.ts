@@ -25,13 +25,3 @@ export interface Individu {
   niveau_diplome_prepare?: string
   libelle_pays_naiss?: string
 }
-
-/**
- * Validation rules for Individu fields.
- * Compatible with Mantine form
- */
-export const IndividuRules = {
-  sexe: (v: string) => ["01", "02"].includes(v) ? null : "Must be 01 or 02",
-  code_pays: (v: string) => /^[A-Z]{2}$/.test(v) ? null : "Must be 2 uppercase letters",
-  code_postal: (v: string) => !v || /^\d+$/.test(v) ? null : "Must be digits only",
-}

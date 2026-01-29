@@ -24,10 +24,10 @@ export const links: Route.LinksFunction = () => [
 ];
 
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import '@mantine/dropzone/styles.css';
 import { MantineProvider } from '@mantine/core';
-import '@mantine/dropzone/styles.css';
-import { DSNUpload } from "./frontend/components/dsn_upload";
+import './i18n';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -41,7 +41,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <MantineProvider>
           {children}
-          <DSNUpload />
         </MantineProvider>
         <ScrollRestoration />
         <Scripts />

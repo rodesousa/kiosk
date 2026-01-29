@@ -8,7 +8,7 @@ const baseEmployee: Employee = {
   code_pays: "FR",
   code_postal: "75001",
   nature: "01",
-  statut_conventionnel: "02",
+  code_categorie_service: "01",
   date_fin_previsionnelle: null,
 }
 

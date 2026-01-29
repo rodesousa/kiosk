@@ -77,11 +77,3 @@ export interface Contrat {
 	cti?: string
 	finess_geo?: string
 }
-/**
- * Validation rules for Contrat fields.
- * Compatible with Mantine form
- */
-export const ContratRules = {
-	statut_conventionnel: (v: string) => /^\d+$/.test(v) ? null : "Must be digits only",
-	nature: (v: string) => !v || /^\d+$/.test(v) ? null : "Must be digits only",
-}

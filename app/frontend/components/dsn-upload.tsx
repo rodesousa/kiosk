@@ -1,10 +1,17 @@
 import { Group, Text } from '@mantine/core';
 import { IconUpload, IconFileText, IconX } from '@tabler/icons-react';
 import { Dropzone } from '@mantine/dropzone';
+import { useTranslation } from 'react-i18next';
 import { readFileAsync } from '../file-reader'
 import { parseDSN } from '../../dsn/parser'
+import type { DSNDocument } from '../../type/dsn'
 
-export function DSNUpload() {
+interface Props {
+  onParsed: (dsn: DSNDocument) => void
+}
+
+export function DSNUpload({ onParsed }: Props) {
+  const { t } = useTranslation()
 
   const handleDrop = async (files: File[]) => {
     const file = files[0];
@@ -12,7 +19,7 @@ export function DSNUpload() {
 
     const content = await readFileAsync(file)
     const dsn = parseDSN(content)
-    console.log(dsn)
+    onParsed(dsn)
   }
 
 
@@ -36,10 +43,10 @@ export function DSNUpload() {
 
         <div>
           <Text size="xl" inline>
-            Drag DSN file here or click to select
+            {t('upload.drag')}
           </Text>
           <Text size="sm" c="dimmed" inline mt={7}>
-            Upload your DSN file (.txt) - max 5MB
+            {t('upload.hint')}
           </Text>
         </div>
       </Group>

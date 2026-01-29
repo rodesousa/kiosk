@@ -8,10 +8,6 @@ export interface Question {
   unit?: string
   enumFr?: string[]
   enumEn?: string[]
-  computed?: {
-    dependencies: string[]
-    formula: (answers: AnswerMap) => number | null
-  }
 }
 
 export interface QuestionGroup {
@@ -34,7 +30,7 @@ export interface Employee {
   code_pays: string
   code_postal: string
   nature: string
-  statut_conventionnel: string
+  code_categorie_service: string
   date_fin_previsionnelle: string | null
 }
 
