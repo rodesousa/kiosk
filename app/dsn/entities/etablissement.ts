@@ -17,3 +17,24 @@ export interface Etablissement {
 	opco?: string,
 	demande_sortie_dsn?: string,
 }
+
+// DSN block S21.G00.11 - Etablissement
+export const ETABLISSEMENT_FIELDS: Record<string, keyof Etablissement> = {
+	"001": "nic",
+	"002": "apet",
+	"003": "voie",
+	"004": "code_postal",
+	"005": "localite",
+	"006": "complement_construction",
+	"007": "complement_voie",
+	"008": "effectif_fin_periode",
+	"009": "remuneration_expatries",
+	"015": "code_pays",
+	"016": "code_distribution",
+	"017": "nature_juridique_employeur",
+	"019": "date_effet",
+	"020": "date_sortie",
+	"022": "code_convention_collective",
+	"023": "opco",
+	"024": "demande_sortie_dsn",
+}

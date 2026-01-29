@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest"
 import { readFile } from "fs/promises"
-import * as Parser from "./parser"
+import { parseDSN } from "./parser"
 import { type DSNDocument } from "../type/dsn"
+
 const entreprise = {
   siren: '397096943',
   nic: '76756',
@@ -29,13 +30,14 @@ const envoi = {
 const emetteur = {
   siren: '790498192',
   nic: '69384',
-  raison_sociale: 'Exversion',
-  adresse: '3040 Unionstad',
+  nom: 'Exversion',
+  voie: '3040 Unionstad',
   code_postal: '45649',
-  commune: 'Fresno',
-  code_pays: 'BF',
-  code_distribution_etranger: 'weekly',
-  complement_localisation: 'Sylvia Schmeler'
+  localite: 'Fresno',
+  pays: 'BF',
+  code_distribution: 'myself',
+  complement_construction: 'Sylvia Schmeler',
+  complement_voie: 'weekly',
 }
 const etablissement = {
   nic: '92734',
@@ -172,10 +174,10 @@ const remuneration = {
   taux_majoration_exapprenti: '9.899069'
 }
 
-describe("parseDSN", () => {
+describe("parseDSN (parser2)", () => {
   it('should parse DSN file and return DSNDocument', async () => {
     const content = await readFile("dsn.txt", "utf-8")
-    const dsn: DSNDocument = Parser.parseDSN(content)
+    const dsn: DSNDocument = parseDSN(content)
 
     expect(dsn.individus.at(0)?.remuneration).toStrictEqual(remuneration)
     expect(dsn.individus.at(0)?.contrat).toStrictEqual(contrat)
@@ -189,54 +191,46 @@ describe("parseDSN", () => {
   })
 })
 
-describe('mapIndividuField', () => {
+describe('mapFields via INDIVIDU_FIELDS', () => {
   it('maps sexe (005)', () => {
-    const individu = {}
-    Parser.mapIndividuField(individu, "005", "01")
-    expect(individu).toHaveProperty('sexe', "01")
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.30.005,'01'")
+    expect(dsn.individus.at(0)?.individu).toHaveProperty('sexe', '01')
   })
 
   it('maps code_pays (011)', () => {
-    const individu = {}
-    Parser.mapIndividuField(individu, "011", "FR")
-    expect(individu).toHaveProperty('code_pays', "FR")
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.30.011,'FR'")
+    expect(dsn.individus.at(0)?.individu).toHaveProperty('code_pays', 'FR')
   })
 
   it('maps code_postal (009)', () => {
-    const individu = {}
-    Parser.mapIndividuField(individu, "009", "75001")
-    expect(individu).toHaveProperty('code_postal', "75001")
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.30.009,'75001'")
+    expect(dsn.individus.at(0)?.individu).toHaveProperty('code_postal', '75001')
   })
 
   it('ignores unknown field', () => {
-    const individu = {}
-    Parser.mapIndividuField(individu, "999", "test")
-    expect(Object.keys(individu).length).toBe(0)
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.30.999,'test'")
+    expect(Object.keys(dsn.individus.at(0)?.individu ?? {})).toHaveLength(0)
   })
 })
 
-describe('mapContratField', () => {
+describe('mapFields via CONTRAT_FIELDS', () => {
   it('maps nature (007)', () => {
-    const contrat = {}
-    Parser.mapContratField(contrat, "007", "01")
-    expect(contrat).toHaveProperty('nature', "01")
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.40,''\nS21.G00.40.007,'01'")
+    expect(dsn.individus.at(0)?.contrat).toHaveProperty('nature', '01')
   })
 
   it('maps statut_conventionnel (002)', () => {
-    const contrat = {}
-    Parser.mapContratField(contrat, "002", "03")
-    expect(contrat).toHaveProperty('statut_conventionnel', "03")
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.40,''\nS21.G00.40.002,'03'")
+    expect(dsn.individus.at(0)?.contrat).toHaveProperty('statut_conventionnel', '03')
   })
 
   it('maps date_fin_previsionnelle (010)', () => {
-    const contrat = {}
-    Parser.mapContratField(contrat, "010", "20240101")
-    expect(contrat).toHaveProperty('date_fin_previsionnelle', "20240101")
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.40,''\nS21.G00.40.010,'20240101'")
+    expect(dsn.individus.at(0)?.contrat).toHaveProperty('date_fin_previsionnelle', '20240101')
   })
 
   it('ignores unknown field', () => {
-    const contrat = {}
-    Parser.mapContratField(contrat, "999", "test")
-    expect(Object.keys(contrat).length).toBe(0)
+    const dsn = parseDSN("S21.G00.30,''\nS21.G00.40,''\nS21.G00.40.999,'test'")
+    expect(Object.keys(dsn.individus.at(0)?.contrat ?? {})).toHaveLength(0)
   })
 })
