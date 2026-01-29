@@ -52,7 +52,7 @@ export async function exportToWord(title: string, sections: ExportSection[]): Pr
 
   const blob = await Packer.toBlob(doc)
   const filename = `report-${new Date().toISOString().split('T')[0]}.docx`
-    // @ts-ignore - file-saver CommonJS compatibility
+    // @ts-expect-error - file-saver CommonJS compatibility
     ; (FileSaver.saveAs || FileSaver)(blob, filename)
 }
 

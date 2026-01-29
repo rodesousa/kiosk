@@ -12,7 +12,7 @@ const baseEmployee: Employee = {
   date_fin_previsionnelle: null,
 }
 
-const pastDate = dayjs().subtract(1, 'year').format('YYYY-MM-DD')
+const pastDate = dayjs().subtract(101, 'year').format('YYYY-MM-DD')
 const futureDate = dayjs().add(1, 'year').format('YYYY-MM-DD')
 
 describe('getActiveEmployees', () => {

@@ -1,5 +1,3 @@
-import type { Employee } from '../questions/types'
-
 export type TableData = Record<string, Record<string, number>>
 
 export interface GlobalValues {

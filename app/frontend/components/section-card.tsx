@@ -1,4 +1,4 @@
-import { Card, Box, Title, Group, ActionIcon, Collapse } from '@mantine/core'
+import { Card, Box, Title, Group, ActionIcon } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconChevronDown, IconChevronRight } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
