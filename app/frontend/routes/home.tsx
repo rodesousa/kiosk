@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Container, Stack, Title, Group, SegmentedControl, Button } from '@mantine/core'
+import { Container, Stack, Title, Group, SegmentedControl, Button, Alert } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 import { DSNUpload } from '../components/dsn-upload'
 import type { Column } from '../components/edit-table'
@@ -117,7 +117,11 @@ export default function Home() {
           </Group>
         </Group>
 
-        <DSNUpload onParsed={handleDsnParsed} />
+        {dsnData ? (
+          <Alert color="green">{t('upload.success')}</Alert>
+        ) : (
+          <DSNUpload onParsed={handleDsnParsed} />
+        )}
 
         <GlobalSection key={`global-${importKey}`} ref={globalRef} initialData={dsnData?.global} />
 

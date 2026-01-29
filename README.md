@@ -36,6 +36,7 @@ AI was used for:
 - Help building the export logic ./app/services/export-word.ts
 - Creating mapping files like ./app/dsn/country.ts, ./app/dsn/contrat-nature.ts
 - Test generation
+- Documentation
 
 ### what you would improve next
 

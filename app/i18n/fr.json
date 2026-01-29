@@ -2,6 +2,7 @@
   "title": "Import/Export DSN",
   "upload.drag": "Glissez un fichier DSN ici ou cliquez pour sélectionner",
   "upload.hint": "Fichier DSN (.txt) - max 5 Mo",
+  "upload.success": "Fichier DSN importé avec succès",
   "global.title": "Nombre total d'employés",
   "global.question": "Question",
   "global.value": "Valeur",
@@ -41,6 +42,5 @@
   "contract.headcount": "Nombre d'employés (fin de période)",
   "contract.average": "Nombre d'employés (moyenne sur la période)",
   "contract.male": "Homme",
-  "contract.female": "Femme",
-  "contract.total": "Total"
+  "contract.female": "Femme"
 }
